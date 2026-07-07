@@ -16,12 +16,11 @@ router.post("/", protect, addFoundItem);
 
 // Get All Found Items
 router.get("/", getFoundItems);
-
 // Update Found Item
-router.put("/:id", updateFoundItem);
+router.put("/:id", protect, updateFoundItem);
 
 // Delete Found Item
-router.delete("/:id", deleteFoundItem);
+router.delete("/:id", protect, deleteFoundItem);
 
 // Get My Found Items
 router.get("/my-items", protect, getMyFoundItems);

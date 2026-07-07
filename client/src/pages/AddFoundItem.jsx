@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 
 function AddFoundItem() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     title: "",
     category: "",
@@ -30,7 +33,8 @@ function AddFoundItem() {
       });
 
       alert(res.data.message);
-
+      console.log("Success");
+      
       setFormData({
         title: "",
         category: "",
@@ -38,6 +42,8 @@ function AddFoundItem() {
         dateFound: "",
         description: "",
       });
+
+      navigate("/found-items");
     } catch (error) {
       alert(error.response?.data?.message || "Failed to add found item");
     }

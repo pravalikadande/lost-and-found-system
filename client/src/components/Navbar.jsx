@@ -5,15 +5,12 @@ function Navbar() {
 
   const token = localStorage.getItem("token");
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
+const handleLogout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("userId");
 
-    alert("Logged out successfully");
-    navigate("/login");
-
-    window.location.reload();
-  };
+  navigate("/login", { replace: true });
+};
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">

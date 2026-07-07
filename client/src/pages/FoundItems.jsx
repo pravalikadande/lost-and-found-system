@@ -5,7 +5,7 @@ function FoundItems() {
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
-
+const loggedInUserId = localStorage.getItem("userId");
   useEffect(() => {
     fetchFoundItems();
   }, []);
@@ -160,27 +160,32 @@ const claimItem = async (id) => {
                     {new Date(item.dateFound).toLocaleDateString()}
                   </p>
 
-                  <button
-                    className="btn btn-warning me-2"
-                    onClick={() => editItem(item)}
-                  >
-                    Edit
-                  </button>
+                  {item.user && item.user._id === loggedInUserId && (
+  <>
+    <button
+      className="btn btn-warning me-2"
+      onClick={() => editItem(item)}
+    >
+      Edit
+    </button>
 
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => deleteItem(item._id)}
-                  >
-                    Delete
-                  </button>
-                  
+    <button
+      className="btn btn-danger"
+      onClick={() => deleteItem(item._id)}
+    >
+      Delete
+    </button>
+  </>
+)}
                 </div>
-                <button
-  className="btn btn-primary w-100"
-  onClick={() => claimItem(item._id)}
->
-  Claim
-</button>
+                {item.user && item.user._id !== loggedInUserId && (
+  <button
+    className="btn btn-primary w-100"
+    onClick={() => claimItem(item._id)}
+  >
+    Claim
+  </button>
+)}
               </div>
             ))}
         </div>

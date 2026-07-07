@@ -46,32 +46,64 @@ const getMyFoundItems = async (req, res) => {
   }
 };
 
-
 const updateFoundItem = async (req, res) => {
   try {
-    const item = await Found.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
+    const item = await Found.findById(req.params.id);
+
+    if (!item) {
+      return res.status(404).json({
+        message: "Item not found",
+      });
+    }
+
+    // Owner check
+    if (item.user.toString() !== req.user.id) {
+      return res.status(403).json({
+        message: "You can only edit your own item",
+      });
+    }
+
+    Object.assign(item, req.body);
+
+    await item.save();
 
     res.json(item);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
 
 const deleteFoundItem = async (req, res) => {
   try {
-    await Found.findByIdAndDelete(req.params.id);
+    const item = await Found.findById(req.params.id);
+
+    if (!item) {
+      return res.status(404).json({
+        message: "Item not found",
+      });
+    }
+
+    // Owner check
+    if (item.user.toString() !== req.user.id) {
+      return res.status(403).json({
+        message: "You can only delete your own item",
+      });
+    }
+
+    await item.deleteOne();
 
     res.json({
       message: "Found Item Deleted Successfully",
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
+
 
 module.exports = {
   addFoundItem,

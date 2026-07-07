@@ -148,21 +148,23 @@ const loggedInUserId = localStorage.getItem("userId");
     {item.status || "Lost"}
   </span>
 </p>
-                  <div className="d-flex gap-2">
-                    <button
-                      className="btn btn-warning w-50"
-                      onClick={() => editItem(item)}
-                    >
-                      Edit
-                    </button>
+{item.user && item.user._id === loggedInUserId && (
+  <div className="d-flex gap-2">
+    <button
+      className="btn btn-warning w-50"
+      onClick={() => editItem(item)}
+    >
+      Edit
+    </button>
 
-                    <button
-                      className="btn btn-danger w-50"
-                      onClick={() => deleteItem(item._id)}
-                    >
-                      Delete
-                    </button>
-                    </div>
+    <button
+      className="btn btn-danger w-50"
+      onClick={() => deleteItem(item._id)}
+    >
+      Delete
+    </button>
+  </div>
+)}
 </div>
                 </div>
             ))}

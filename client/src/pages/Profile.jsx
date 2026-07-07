@@ -49,14 +49,16 @@ function Profile() {
   };
 
   const toggleTheme = () => {
-    if (darkMode) {
-      localStorage.setItem("theme", "light");
-    } else {
-      localStorage.setItem("theme", "dark");
-    }
+  const newTheme = darkMode ? "light" : "dark";
 
-    window.location.reload();
-  };
+  localStorage.setItem("theme", newTheme);
+
+  document.body.classList.remove("light", "dark");
+  document.body.classList.add(newTheme);
+
+  // ❌ window.location.reload() remove cheyyandi
+};
+
 
   const logout = () => {
     localStorage.removeItem("token");

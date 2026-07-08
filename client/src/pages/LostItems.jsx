@@ -75,6 +75,28 @@ const loggedInUserId = localStorage.getItem("userId");
     }
   };
 
+  const markAsClaimed = async (id) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    await API.put(
+      `/lost/${id}`,
+      { status: "Claimed" },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    alert("Item marked as Claimed");
+    fetchLostItems();
+  } catch (error) {
+    console.log(error);
+    alert(error.response?.data?.message || error.message);
+  }
+};
+
 
 
   return (
@@ -149,20 +171,32 @@ const loggedInUserId = localStorage.getItem("userId");
   </span>
 </p>
 {item.user && item.user._id === loggedInUserId && (
-  <div className="d-flex gap-2">
-    <button
-      className="btn btn-warning w-50"
-      onClick={() => editItem(item)}
-    >
-      Edit
-    </button>
+  <div className="d-flex flex-column gap-2">
 
-    <button
-      className="btn btn-danger w-50"
-      onClick={() => deleteItem(item._id)}
-    >
-      Delete
-    </button>
+    {item.status !== "Claimed" && (
+      <button
+        className="btn btn-success"
+        onClick={() => markAsClaimed(item._id)}
+      >
+        Mark as Claimed
+      </button>
+    )}
+
+    <div className="d-flex gap-2">
+      <button
+        className="btn btn-warning w-50"
+        onClick={() => editItem(item)}
+      >
+        Edit
+      </button>
+
+      <button
+        className="btn btn-danger w-50"
+        onClick={() => deleteItem(item._id)}
+      >
+        Delete
+      </button>
+    </div>
   </div>
 )}
 </div>

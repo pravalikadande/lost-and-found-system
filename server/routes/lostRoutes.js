@@ -20,9 +20,10 @@ router.get("/", getLostItems);
 
 router.get("/my-items", protect, getMyLostItems);
 
-router.put("/:id", updateLostItem);
+router.put("/:id", protect, updateLostItem);
 
-router.delete("/:id", deleteLostItem);
+router.delete("/:id", protect, deleteLostItem);
+
 router.get("/test", (req, res) => {
   res.send("Lost Route Working");
 });

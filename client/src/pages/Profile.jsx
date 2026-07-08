@@ -33,20 +33,25 @@ function Profile() {
   };
 
   const updateProfile = async () => {
-    try {
-      const token = localStorage.getItem("token");
+  try {
+    const token = localStorage.getItem("token");
 
-      const res = await API.put("/auth/profile", user, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    console.log("Token:", token);
+    console.log("User:", user);
 
-      alert(res.data.message);
-    } catch (error) {
-      alert(error.response?.data?.message || "Update Failed");
-    }
-  };
+    const res = await API.put("/auth/profile", user, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log(res.data);
+    alert(res.data.message);
+  } catch (error) {
+    console.log(error.response);
+    alert(error.response?.data?.message || "Update Failed");
+  }
+};
 
   const toggleTheme = () => {
   const newTheme = darkMode ? "light" : "dark";
